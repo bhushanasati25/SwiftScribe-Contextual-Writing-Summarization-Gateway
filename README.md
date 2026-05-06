@@ -1,0 +1,1 @@
+# SwiftScribe-Contextual-Writing-Summarization-Gateway
