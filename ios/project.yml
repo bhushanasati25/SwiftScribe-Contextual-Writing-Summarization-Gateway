@@ -1,0 +1,22 @@
+name: SwiftScribe
+options:
+  bundleIdPrefix: com.bhushanasati
+targets:
+  SwiftScribe:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: SwiftScribe/Sources
+    info:
+      path: SwiftScribe/Sources/Info.plist
+      properties:
+        UILaunchStoryboardName: LaunchScreen
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+  SwiftScribeTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [SwiftScribeTests]
+    dependencies:
+      - target: SwiftScribe

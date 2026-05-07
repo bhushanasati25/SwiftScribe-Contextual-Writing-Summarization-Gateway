@@ -1,0 +1,49 @@
+name: SwiftScribe CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest flake8
+    - name: Lint with flake8
+      run: |
+        cd backend
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+    - name: Test with pytest
+      run: |
+        cd backend
+        # pytest 
+
+  ios-test:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '15.0'
+    - name: Generate Project
+      run: |
+        brew install xcodegen
+        cd ios && xcodegen
+    - name: Build and Test
+      run: |
+        cd ios
+        # xcodebuild test -project SwiftScribe.xcodeproj -scheme SwiftScribe -destination 'platform=iOS Simulator,name=iPhone 15'
