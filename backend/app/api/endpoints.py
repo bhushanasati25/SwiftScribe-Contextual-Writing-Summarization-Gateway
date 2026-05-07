@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from app.models.schemas import SummarizationRequest, SummarizationResponse
 from app.services.summarizer import summarizer
 from app.api.deps import get_redis
+from app.core.auth import get_current_user
 import logging
 
 router = APIRouter()
@@ -11,7 +12,8 @@ logger = logging.getLogger(__name__)
 async def summarize_text(
     request: Request,
     summarization_request: SummarizationRequest,
-    redis_client = Depends(get_redis)
+    redis_client = Depends(get_redis),
+    current_user: str = Depends(get_current_user)
 ):
     # Rate limit is applied in main.py via app.state.limiter if needed, 
     # but we can also apply it here explicitly if we want per-endpoint control.
